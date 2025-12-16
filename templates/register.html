@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | BettaVox API</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f9f9fb 0%, #eef2ff 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .auth-container {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      max-width: 450px;
+      width: 100%;
+      position: relative;
+    }
+    
+    .hero-gradient {
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+    
+    .content {
+      padding: 2.5rem 2rem;
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.1);
+    }
+    
+    .logo svg {
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+    
+    p {
+      color: var(--gray);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 0.9375rem;
+      transition: all 0.2s ease;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 1px 3px 0 rgba(99, 102, 241, 0.3), 0 1px 2px 0 rgba(99, 102, 241, 0.2);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    .footer-links {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.875rem;
+    }
+    
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    
+    .api-key-container {
+      margin-top: 1.5rem;
+      background-color: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+    
+    .api-key-value {
+      font-family: monospace;
+      font-size: 0.9375rem;
+      background-color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+      margin: 0.75rem 0;
+      word-break: break-all;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    
+    .btn-secondary {
+      background-color: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      flex: 1;
+    }
+    
+    .btn-secondary:hover {
+      background-color: rgba(99, 102, 241, 0.05);
+    }
+    
+    .note {
+      font-size: 0.8125rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+    }
+    
+    .flashes {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1.5rem;
+    }
+    
+    .flashes li {
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+    
+    .flashes li svg {
+      margin-right: 0.5rem;
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+  </style>
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              {% if category == 'success' %}
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              {% else %}
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              {% endif %}
+            </svg>
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <div class="auth-container">
+    <div class="hero-gradient"></div>
+    <div class="content">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <h1>Get your API key</h1>
+      <p>Register for a BettaVox API account to start analyzing voice samples.</p>
+      
+      <form id="registerForm" method="POST" action="/register">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+      
+      <div id="apiKeyResult" class="api-key-container" style="display: none;">
+        <p class="note">⚠️ This is the only time you'll see your API key. Please copy and store it securely.</p>
+        <div class="api-key-value" id="keyDisplay"></div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy Key</button>
+          <button class="btn btn-secondary" onclick="toggleVisibility()">👁 Toggle View</button>
+        </div>
+        <p class="note">Already have an account? <a href="/login">Sign in here</a></p>
+      </div>
+      
+      <div class="footer-links">
+        <p><a href="/">← Back to Home</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const resultDiv = document.getElementById('apiKeyResult');
+    const keyDisplay = document.getElementById('keyDisplay');
+    let fullKey = '';
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      
+      try {
+        const response = await fetch('/register', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.api_key) {
+          fullKey = data.api_key;
+          keyDisplay.textContent = maskKey(fullKey);
+          resultDiv.style.display = 'block';
+          form.reset();
+        } else if (data.error) {
+          alert(data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      }
+    });
+    
+    function maskKey(key) {
+      if (!key) return '';
+      return key.slice(0, 4) + '****' + key.slice(-4);
+    }
+    
+    function copyToClipboard() {
+      if (!fullKey) return;
+      navigator.clipboard.writeText(fullKey).then(() => {
+        alert('API key copied to clipboard!');
+      });
+    }
+    
+    function toggleVisibility() {
+      if (!fullKey) return;
+      if (keyDisplay.textContent.includes('*')) {
+        keyDisplay.textContent = fullKey;
+      } else {
+        keyDisplay.textContent = maskKey(fullKey);
+      }
+    }
+  </script>
+</body>
+</html>

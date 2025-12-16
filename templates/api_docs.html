@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BettaVox API Docs</title>
+  <link rel="stylesheet" href="/static/css/main.css" />
+  <link rel="stylesheet" href="/static/css/docs.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📘 BettaVox API Documentation</h1>
+    <p>This API predicts a speaker's <strong>gender</strong> and <strong>age group</strong> from a short audio sample. Below is a guide for registration, authentication, and usage.</p>
+    <hr>
+
+    <h2>🔐 1. Authentication Overview</h2>
+    <p>All protected endpoints require an API key in the header:</p>
+    <pre><code>X-API-KEY: your_api_key_here</code></pre>
+
+    <hr>
+
+    <h2>👤 2. User Registration Flows</h2>
+
+    <h3>2.1 Anonymous Registration (Quick Start)</h3>
+    <p>No login required — just provide your email to get an API key instantly.</p>
+    <pre><code>
+POST /register
+Content-Type: application/x-www-form-urlencoded
+
+Body:
+  email=your_email@example.com
+    </code></pre>
+
+    <strong>Response:</strong>
+    <pre><code>
+200 OK
+{
+  "message": "Account created",
+  "api_key": "your_generated_api_key"
+}
+    </code></pre>
+
+    <strong>Errors:</strong>
+    <pre><code>
+400 - Missing email
+409 - Email already registered
+500 - Server/database error
+    </code></pre>
+
+    <h3>2.2 Full Sign-Up (Email & Password)</h3>
+    <p>Use this for secure login and dashboard access.</p>
+    <pre><code>
+GET /sign_up  → Show sign-up form
+
+POST /sign_up
+Form fields:
+  email, password, confirm_password
+    </code></pre>
+
+    <h3>2.3 Google OAuth Sign-In</h3>
+    <p>You can sign up or log in using your Google account. API key generation still uses the same <code>/register</code> endpoint after login.</p>
+
+    <pre><code>
+GET /login → Click "Sign in with Google"
+Callback: /google/callback
+    </code></pre>
+
+    <hr>
+
+    <h2>🔑 3. Getting Your API Key</h2>
+    <h3>3.1 Anonymous Users:</h3>
+    <p>Use <code>POST /register</code> with email (as shown above).</p>
+
+    <h3>3.2 Logged-In Users (via session):</h3>
+    <p>If you're logged in, calling <code>POST /register</code> again will issue a new key and save it to your account.</p>
+
+    <pre><code>
+POST /register  (while logged in)
+Response:
+{
+  "message": "API key generated",
+  "api_key": "xxxxxxxxxxxxxxxx"
+}
+    </code></pre>
+
+    <hr>
+
+    <h2>🎯 4. Make a Prediction</h2>
+    <pre><code>
+POST /predict
+Headers:
+  X-API-KEY: your_api_key
+  Content-Type: multipart/form-data
+
+Body:
+  audio: file (.wav, .mp3, .m4a, .ogg)
+    </code></pre>
+
+    <strong>Success Response:</strong>
+    <pre><code>
+200 OK
+{
+  "id": 45,
+  "gender": "Male",
+  "gender_confidence": 93.21,
+  "age_group": "teen",
+  "age_confidence": 87.46
+}
+    </code></pre>
+
+    <strong>Errors:</strong>
+    <pre><code>
+401 - Missing API key
+403 - Invalid API key
+429 - Too many requests (free plan: 5/day)
+400 - Invalid or missing audio file
+500 - Feature extraction failed
+    </code></pre>
+
+    <hr>
+
+    <h2>📝 5. Provide Feedback</h2>
+
+    <h3>5.1 Feedback Form (UI):</h3>
+    <pre><code>
+GET /feedback?id=45
+    </code></pre>
+
+    <h3>5.2 Submit Feedback (Programmatically):</h3>
+    <pre><code>
+POST /feedback
+Form Fields:
+  id:                (prediction ID)
+  is_correct:        1 or 0
+  corrected_gender:  "Male" or "Female" (optional)
+  corrected_age_group: "child" | "teen" | "adult" (optional)
+  user_feedback:     (optional string)
+    </code></pre>
+
+    <strong>Response:</strong>
+    <code>Redirects to /home with success or error flash message</code>
+
+    <hr>
+
+    <h2>📊 6. Admin: View Feedback</h2>
+    <pre><code>
+GET /admin/view-feedback
+    </code></pre>
+    <p>Shows all feedback where users responded to prediction quality.</p>
+
+    <hr>
+
+    <h2>📦 7. Rate Limits</h2>
+    <table border="1" cellpadding="6">
+      <tr><th>Plan</th><th>Requests per Day</th><th>Price</th></tr>
+      <tr><td>Free</td><td>5</td><td>$0</td></tr>
+      <tr><td>Pro</td><td>Unlimited</td><td>$5/month</td></tr>
+    </table>
+
+    <hr>
+
+    <h2>🧪 8. Python Example</h2>
+    <pre><code class="language-python">
+import requests
+
+url = "http://localhost:5000/predict"
+headers = {
+    "X-API-KEY": "your_api_key_here"
+}
+files = {
+    "audio": open("sample.wav", "rb")
+}
+
+response = requests.post(url, headers=headers, files=files)
+print(response.json())
+    </code></pre>
+
+    <hr>
+
+    <h2>📧 9. Contact</h2>
+    <p>Have questions or want Pro access?</p>
+    <ul>
+      <li>Email: <a href="mailto:bettdevs@mail.com">bettdevs@mail.com</a></li>
+      <li>GitHub: <a href="https://github.com/manubett254/BettaVox_V1" target="_blank">View on GitHub</a></li>
+    </ul>
+
+    <br><br>
+    <a href="/" class="btn btn-outline">← Back to Home</a>
+  </div>
+</body>
+</html>

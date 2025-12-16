@@ -1,0 +1,33 @@
+h1 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+#result {
+  margin-top: 2rem;
+  background-color: #e9f5ff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.flashes {
+  list-style: none;
+  padding: 0;
+}
+.flashes li.success {
+  color: green;
+}
+.flashes li.error {
+  color: red;
+}
+.btn {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.btn:hover {
+  background: #0056b3;
+}

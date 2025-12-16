@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback – BettaVox</title>
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/css/feedback.css">
+</head>
+<body>
+  <div class="container">
+    <h2>📝 Help Us Improve</h2>
+    <p>If the prediction was incorrect, please tell us what it should have been.</p>
+
+    <form method="POST" action="/feedback">
+      <input type="hidden" name="id" value="{{ prediction_id }}" />
+      <label>
+        Was the prediction correct?
+        <select name="is_correct">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </label><br><br>
+
+      <label>Correct Gender:</label>
+      <select name="corrected_gender">
+        <option value="">(unchanged)</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select><br><br>
+
+      <label>Correct Age Group:</label>
+      <select name="corrected_age_group">
+        <option value="">(unchanged)</option>
+        <option value="child">Child</option>
+        <option value="teen">Teen</option>
+        <option value="adult">Adult</option>
+      </select><br><br>
+
+      <label>Additional Comments:</label><br>
+      <textarea name="user_feedback" rows="4" cols="50"></textarea><br><br>
+
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+</body>
+</html>
